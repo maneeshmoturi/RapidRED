@@ -26,11 +26,16 @@ public class LoginActivity extends AppCompatActivity {
         registerText = findViewById(R.id.registerText);
 
         loginButton.setOnClickListener(view -> {
-            // TODO: onClick HomePageActivity
+            // TODO: authenticate using Firebase
+            Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(homeIntent);
+            finish();
         });
 
         registerText.setOnClickListener(view -> {
-            // TODO: onClick RegisterActivity
+            // TODO: register using Firebase
+            Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(registerIntent);
         });
 
     }
