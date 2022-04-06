@@ -5,4 +5,7 @@
     <string name="enter_password">Enter Password</string>
     <string name="login">Login</string>
     <string name="don_t_have_an_account_register">Don\'t have an account ? Register</string>
+    <string name="already_have_an_account_login">already have an account ? Login</string>
+    <string name="register">register</string>
+    <string name="add_item_view">add item view</string>
 </resources>
