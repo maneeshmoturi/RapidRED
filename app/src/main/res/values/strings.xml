@@ -7,4 +7,7 @@
     <string name="register">Register</string>
     <string name="don_t_have_an_account_register">Don\'t have an account ? Register</string>
     <string name="already_have_an_account_login">Already have an account ? Login</string>
+    <string name="textview">TextView</string>
+    <string name="march_12_2022">March 12, 2022</string>
+    <string name="_12_000_00">₹ 12,000.00</string>
 </resources>

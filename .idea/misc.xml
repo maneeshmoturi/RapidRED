@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/KARTHIKEYA/AndroidStudioProjects/Budget_App/app/src/main/res/drawable/ic_baseline_attach_money_24.xml" value="0.258" />
+        <entry key="..\:/Users/KARTHIKEYA/AndroidStudioProjects/Budget_App/app/src/main/res/layout/activity_home.xml" value="0.4591474245115453" />
         <entry key="..\:/Users/KARTHIKEYA/AndroidStudioProjects/Budget_App/app/src/main/res/layout/activity_register.xml" value="0.6375" />
+        <entry key="..\:/Users/KARTHIKEYA/AndroidStudioProjects/Budget_App/app/src/main/res/layout/recycler_view.xml" value="0.6375" />
         <entry key="..\:/Users/Manum/AndroidStudioProjects/BudgetApp/app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="..\:/Users/Manum/AndroidStudioProjects/BudgetApp/app/src/main/res/layout/activity_login.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/Manum/AndroidStudioProjects/BudgetApp/app/src/main/res/layout/activity_main.xml" value="0.22604166666666667" />
