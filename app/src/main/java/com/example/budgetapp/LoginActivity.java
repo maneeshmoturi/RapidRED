@@ -33,7 +33,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         registerText.setOnClickListener(view -> {
-            // TODO: register using Firebase
             Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(registerIntent);
         });
