@@ -4,5 +4,7 @@
     <string name="enter_email">Enter Email</string>
     <string name="enter_password">Enter Password</string>
     <string name="login">Login</string>
+    <string name="register">Register</string>
     <string name="don_t_have_an_account_register">Don\'t have an account ? Register</string>
+    <string name="already_have_an_account_login">Already have an account ? Login</string>
 </resources>
