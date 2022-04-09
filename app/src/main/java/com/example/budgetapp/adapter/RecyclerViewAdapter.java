@@ -10,8 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetapp.R;
+import com.example.budgetapp.models.Budget;
+
+import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+
+    public List<Budget> _listBudget;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -24,6 +29,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             labelDescription = itemView.findViewById(R.id.labelDescription);
             labelAmount = itemView.findViewById(R.id.labelAmount);
         }
+    }
+
+    public RecyclerViewAdapter(List<Budget> listBudget) {
+        _listBudget = listBudget;
     }
 
     @NonNull
@@ -39,21 +48,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
+        Budget cardBudget = _listBudget.get(position);
+
         TextView _labelDate = holder.labelDate;
         TextView _labelDescription = holder.labelDescription;
         TextView _labelAmount = holder.labelAmount;
 
-        // TODO: Use Data Model
-        String date = "March 12, 2022", description = "HOD", amount = "₹ 160.00";
-
-        _labelDate.setText(date);
-        _labelDescription.setText(description);
-        _labelAmount.setText(amount);
+        _labelDate.setText(cardBudget.getDate());
+        _labelDescription.setText(cardBudget.getDescription());
+        _labelAmount.setText(cardBudget.getPrice());
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return _listBudget.size();
     }
 
 }
