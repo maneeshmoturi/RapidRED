@@ -5,4 +5,13 @@
     <string name="enter_password">Enter Password</string>
     <string name="login">Login</string>
     <string name="don_t_have_an_account_register">Don\'t have an account ? Register</string>
+    <string name="april_08_2022">April 08, 2022</string>
+    <string name="date">date</string>
+    <string name="description">Description</string>
+    <string name="_3200">₹ 3200</string>
+    <string name="edt_hint">Type Here…</string>
+    <string name="btn_add">Add</string>
+    <string name="btn_read">Read</string>
+    <string name="btn_update">Update</string>
+    <string name="btn_delete">Delete</string>
 </resources>
