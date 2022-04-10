@@ -41,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
         listView = findViewById(R.id.lv);
 
         // Init FirebaseApp
-        myApp = FirebaseApp.initializeApp(this);
+        myApp = FirebaseApp.getInstance();
 
         // Init FireStore
         myDB = FirebaseFirestore.getInstance();
