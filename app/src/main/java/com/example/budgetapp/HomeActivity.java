@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,6 +25,8 @@ import java.util.Objects;
 public class HomeActivity extends AppCompatActivity {
 
     FirebaseFirestore myDB;
+    FirebaseApp myApp;
+
     EditText edtData;
     ListView listView;
     List<String> list = new ArrayList<>();
@@ -31,11 +34,14 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
 
         // InitViews
         edtData = findViewById(R.id.edt_hint);
         listView = findViewById(R.id.lv);
+
+        // Init FirebaseApp
+        myApp = FirebaseApp.initializeApp(this);
 
         // Init FireStore
         myDB = FirebaseFirestore.getInstance();
@@ -98,7 +104,7 @@ public class HomeActivity extends AppCompatActivity {
             edtData.setError("Value Required");
         }
     }
-
+    // CCg82ZUAvEnCVDQHEqXw
     public void onDeleteClicked(View view) {
         hideKeyboard(this);
         myDB.collection("myData").document("1").delete()
