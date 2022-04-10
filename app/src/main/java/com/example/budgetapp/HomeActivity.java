@@ -71,8 +71,8 @@ public class HomeActivity extends AppCompatActivity {
         if (edtData.getText().toString().length() > 0) {
             Map<String, Object> data = new HashMap<>();
             data.put("task_name", edtData.getText().toString());
-            myDB.collection("tasks")
-                    .add(data)
+            myDB.collection("tasks").document("1")
+                    .set(data)
                     .addOnSuccessListener(documentReference -> toastResult("Data added successfully"))
                     .addOnFailureListener(e -> toastResult("Error while adding the data : " + e.getMessage()));
 
@@ -81,22 +81,12 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void onReadClicked(View view) {
-        hideKeyboard(this);
-        DocumentReference documentReference = myDB.collection("myData").document("1");
-        documentReference.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                edtData.setText(Objects.requireNonNull(task.getResult().get("data")).toString());
-            }
-        });
-    }
-
     public void onUpdateClicked(View view) {
         hideKeyboard(this);
         if (edtData.getText().toString().length() > 0) {
             Map<String, Object> data = new HashMap<>();
-            data.put("data", edtData.getText().toString());
-            myDB.collection("myData").document("1").update(data)
+            data.put("task_name", edtData.getText().toString());
+            myDB.collection("tasks").document("1").update(data)
                     .addOnSuccessListener(aVoid -> toastResult("Data updated successfully"))
                     .addOnCompleteListener(task -> toastResult("Data update Completed"))
                     .addOnFailureListener(e -> toastResult("Error while updating the data : " + e.getMessage()));
@@ -104,10 +94,10 @@ public class HomeActivity extends AppCompatActivity {
             edtData.setError("Value Required");
         }
     }
-    // CCg82ZUAvEnCVDQHEqXw
+
     public void onDeleteClicked(View view) {
         hideKeyboard(this);
-        myDB.collection("myData").document("1").delete()
+        myDB.collection("tasks").document("1").delete()
                 .addOnSuccessListener(aVoid -> toastResult("Data deleted successfully"))
                 .addOnFailureListener(e -> toastResult("Error while deleting the data : " + e.getMessage()));
     }
