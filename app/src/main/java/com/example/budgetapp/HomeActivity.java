@@ -1,6 +1,8 @@
 package com.example.budgetapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,8 +13,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.budgetapp.adapter.BudgetAdapter;
+import com.example.budgetapp.models.Budget;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -20,7 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -28,7 +31,7 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseApp myApp;
 
     EditText edtData;
-    ListView listView;
+    RecyclerView listView;
     List<String> list = new ArrayList<>();
 
     @Override
@@ -38,14 +41,32 @@ public class HomeActivity extends AppCompatActivity {
 
         // InitViews
         edtData = findViewById(R.id.edt_hint);
-        listView = findViewById(R.id.lv);
+        listView = findViewById(R.id.rvBudget);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        BudgetAdapter adapter = new BudgetAdapter(tempData());
+
+        listView.setAdapter(adapter);
+        listView.setLayoutManager(layoutManager);
 
         // Init FirebaseApp
         myApp = FirebaseApp.getInstance();
 
         // Init FireStore
         myDB = FirebaseFirestore.getInstance();
-        readData();
+//        readData();
+    }
+
+    private List<Budget> tempData() {
+        List<Budget> toR = new ArrayList<>();
+
+        toR.add(new Budget("id_1", "HOD", "150", "March 12, 2022"));
+        toR.add(new Budget("id_2", "HOD", "120", "March 12, 2022"));
+        toR.add(new Budget("id_3", "HOD", "120", "March 12, 2022"));
+        toR.add(new Budget("id_4", "HOD", "120", "March 12, 2022"));
+        toR.add(new Budget("id_5", "HOD", "120", "March 12, 2022"));
+
+        return toR;
     }
 
     void readData() {
@@ -62,7 +83,7 @@ public class HomeActivity extends AppCompatActivity {
                     R.layout.simple_list_item,
                     R.id.text1,
                     list);
-            listView.setAdapter(arrayAdapter);
+//            listView.setAdapter(arrayAdapter);
         });
     }
 
@@ -71,32 +92,22 @@ public class HomeActivity extends AppCompatActivity {
         if (edtData.getText().toString().length() > 0) {
             Map<String, Object> data = new HashMap<>();
             data.put("task_name", edtData.getText().toString());
+            String docPath = getSize("tasks");
             myDB.collection("tasks")
                     .add(data)
                     .addOnSuccessListener(documentReference -> toastResult("Data added successfully"))
                     .addOnFailureListener(e -> toastResult("Error while adding the data : " + e.getMessage()));
-
         } else {
             edtData.setError("Value Required");
         }
-    }
-
-    public void onReadClicked(View view) {
-        hideKeyboard(this);
-        DocumentReference documentReference = myDB.collection("myData").document("1");
-        documentReference.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                edtData.setText(Objects.requireNonNull(task.getResult().get("data")).toString());
-            }
-        });
     }
 
     public void onUpdateClicked(View view) {
         hideKeyboard(this);
         if (edtData.getText().toString().length() > 0) {
             Map<String, Object> data = new HashMap<>();
-            data.put("data", edtData.getText().toString());
-            myDB.collection("myData").document("1").update(data)
+            data.put("task_name", edtData.getText().toString());
+            myDB.collection("tasks").document("1").update(data)
                     .addOnSuccessListener(aVoid -> toastResult("Data updated successfully"))
                     .addOnCompleteListener(task -> toastResult("Data update Completed"))
                     .addOnFailureListener(e -> toastResult("Error while updating the data : " + e.getMessage()));
@@ -104,16 +115,28 @@ public class HomeActivity extends AppCompatActivity {
             edtData.setError("Value Required");
         }
     }
-    // CCg82ZUAvEnCVDQHEqXw
+
     public void onDeleteClicked(View view) {
         hideKeyboard(this);
-        myDB.collection("myData").document("1").delete()
+        myDB.collection("tasks").document("1").delete()
                 .addOnSuccessListener(aVoid -> toastResult("Data deleted successfully"))
                 .addOnFailureListener(e -> toastResult("Error while deleting the data : " + e.getMessage()));
     }
 
     public void toastResult(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public String getSize(String collection) {
+        AtomicInteger count = new AtomicInteger();
+        myDB.collection(collection).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                count.set(task.getResult().size());;
+            } else {
+                edtData.setError("ERROR getSize()");
+            }
+        });
+        return count.toString();
     }
 
     public static void hideKeyboard(HomeActivity activity) {
