@@ -5,6 +5,8 @@
     <string name="enter_password">Enter Password</string>
     <string name="login">Login</string>
     <string name="don_t_have_an_account_register">Don\'t have an account ? Register</string>
+    <string name="register">register</string>
+    <string name="already_have_an_account_login">already have an account ? Login</string>
     <string name="april_08_2022">April 08, 2022</string>
     <string name="date">date</string>
     <string name="description">Description</string>
