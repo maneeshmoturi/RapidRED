@@ -19,4 +19,6 @@
     <string name="btn_read">Read</string>
     <string name="btn_update">Update</string>
     <string name="btn_delete">Delete</string>
+    <string name="hod">HOD</string>
+    <string name="_1499">1499</string>
 </resources>

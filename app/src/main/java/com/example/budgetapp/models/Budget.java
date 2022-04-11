@@ -2,21 +2,21 @@ package com.example.budgetapp.models;
 
 public class Budget {
 
-    private String Id, Title, Amount, Date;
+    private String Id, Date, Title, Amount;
 
     public Budget() {}
 
-    public Budget(String title, String amount, String date) {
+    public Budget(String date, String title, String amount) {
+        this.Date = date;
         this.Title = title;
         this.Amount = amount;
-        this.Date = date;
     }
 
-    public Budget(String id, String title, String amount, String date) {
+    public Budget(String id, String date, String title, String amount) {
         this.Id = id;
+        this.Date = date;
         this.Title = title;
         this.Amount = amount;
-        this.Date = date;
     }
 
 

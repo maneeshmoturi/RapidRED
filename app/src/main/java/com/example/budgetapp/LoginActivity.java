@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(view -> {
             final String email = loginEmail.getText().toString().trim();
             final String password = loginPassword.getText().toString().trim();
-
+            // TODO: remove comment ( done for debuting )
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, task -> {
                         if (task.isSuccessful()) {

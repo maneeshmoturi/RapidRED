@@ -8,9 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.budgetapp.adapter.BudgetAdapter;
@@ -30,7 +28,7 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseFirestore myDB;
     FirebaseApp myApp;
 
-    EditText edtData;
+    EditText edtDate, edtTitle, edtAmount;
     RecyclerView listView;
 
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -44,10 +42,10 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         // InitViews
-        edtData = findViewById(R.id.edt_hint);
+        edtDate = findViewById(R.id.edtDate);
+        edtTitle = findViewById(R.id.edtTitle);
+        edtAmount = findViewById(R.id.edtAmount);
         listView = findViewById(R.id.rvBudget);
-
-        adapter = new BudgetAdapter(tempData());
 
         listView.setAdapter(adapter);
         listView.setLayoutManager(layoutManager);
@@ -58,18 +56,6 @@ public class HomeActivity extends AppCompatActivity {
         // Init FireStore
         myDB = FirebaseFirestore.getInstance();
         readData();
-    }
-
-    private List<Budget> tempData() {
-        List<Budget> toR = new ArrayList<>();
-
-        toR.add(new Budget("id_1", "HOD", "150", "March 12, 2022"));
-        toR.add(new Budget("id_2", "HOD", "120", "March 12, 2022"));
-        toR.add(new Budget("id_3", "HOD", "120", "March 12, 2022"));
-        toR.add(new Budget("id_4", "HOD", "120", "March 12, 2022"));
-        toR.add(new Budget("id_5", "HOD", "120", "March 12, 2022"));
-
-        return toR;
     }
 
     void readData() {
@@ -85,7 +71,7 @@ public class HomeActivity extends AppCompatActivity {
                     String _amount = doc.getString("amount");
                     String _date = doc.getString("date");
 
-                    list.add(new Budget(_id, _title, _amount, _date));
+                    list.add(new Budget(_id, _date, _title, _amount));
                 }
             }
 
@@ -96,24 +82,34 @@ public class HomeActivity extends AppCompatActivity {
 
     public void onAddClicked(View view) {
         hideKeyboard(this);
-        Budget newData = new Budget("HOD", "120", "March 14, 2022");
+
+        String _date = edtDate.getText().toString().trim();
+        String _title = edtTitle.getText().toString().trim();
+        String _amount = edtAmount.getText().toString().trim();
+
+        Budget newData = new Budget(_date, _title, _amount);
+
         myDB.collection("budgets")
                 .add(newData)
                 .addOnCompleteListener(documentReference -> toastResult("Data added successfully"))
                 .addOnFailureListener(e -> toastResult("Error while adding the data : " + e.getMessage()));
+
+        edtDate.setText("");
+        edtTitle.setText("");
+        edtAmount.setText("");
     }
 
     public void onUpdateClicked(View view) {
         hideKeyboard(this);
-        if (edtData.getText().toString().length() > 0) {
+        if (edtDate.getText().toString().length() > 0) {
             Map<String, Object> data = new HashMap<>();
-            data.put("task_name", edtData.getText().toString());
+            data.put("task_name", edtDate.getText().toString());
             myDB.collection("tasks").document("1").update(data)
                     .addOnSuccessListener(aVoid -> toastResult("Data updated successfully"))
                     .addOnCompleteListener(task -> toastResult("Data update Completed"))
                     .addOnFailureListener(e -> toastResult("Error while updating the data : " + e.getMessage()));
         } else {
-            edtData.setError("Value Required");
+            edtDate.setError("Value Required");
         }
     }
 
@@ -134,7 +130,7 @@ public class HomeActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 count.set(task.getResult().size());;
             } else {
-                edtData.setError("ERROR getSize()");
+                edtDate.setError("ERROR getSize()");
             }
         });
         return count.toString();
