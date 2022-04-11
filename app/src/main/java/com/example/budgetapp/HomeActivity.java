@@ -32,7 +32,11 @@ public class HomeActivity extends AppCompatActivity {
 
     EditText edtData;
     RecyclerView listView;
-    List<String> list = new ArrayList<>();
+
+    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+    BudgetAdapter adapter;
+
+    List<Budget> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +47,7 @@ public class HomeActivity extends AppCompatActivity {
         edtData = findViewById(R.id.edt_hint);
         listView = findViewById(R.id.rvBudget);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        BudgetAdapter adapter = new BudgetAdapter(tempData());
+        adapter = new BudgetAdapter(tempData());
 
         listView.setAdapter(adapter);
         listView.setLayoutManager(layoutManager);
@@ -54,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Init FireStore
         myDB = FirebaseFirestore.getInstance();
-//        readData();
+        readData();
     }
 
     private List<Budget> tempData() {
@@ -70,36 +73,34 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     void readData() {
-        myDB.collection("tasks").addSnapshotListener((documentSnapshots, e) -> {
+        myDB.collection("budgets").addSnapshotListener((documentSnapshots, e) -> {
             if (e != null)
                 toastResult(e.getMessage());
             list.clear();
+
             if (documentSnapshots != null) {
                 for (DocumentSnapshot doc : documentSnapshots) {
-                    list.add(doc.getString("task_name"));
+                    String _id = doc.getId();
+                    String _title = doc.getString("title");
+                    String _amount = doc.getString("amount");
+                    String _date = doc.getString("date");
+
+                    list.add(new Budget(_id, _title, _amount, _date));
                 }
             }
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(),
-                    R.layout.simple_list_item,
-                    R.id.text1,
-                    list);
-//            listView.setAdapter(arrayAdapter);
+
+            adapter = new BudgetAdapter(list);
+            listView.setAdapter(adapter);
         });
     }
 
     public void onAddClicked(View view) {
         hideKeyboard(this);
-        if (edtData.getText().toString().length() > 0) {
-            Map<String, Object> data = new HashMap<>();
-            data.put("task_name", edtData.getText().toString());
-            String docPath = getSize("tasks");
-            myDB.collection("tasks")
-                    .add(data)
-                    .addOnSuccessListener(documentReference -> toastResult("Data added successfully"))
-                    .addOnFailureListener(e -> toastResult("Error while adding the data : " + e.getMessage()));
-        } else {
-            edtData.setError("Value Required");
-        }
+        Budget newData = new Budget("HOD", "120", "March 14, 2022");
+        myDB.collection("budgets")
+                .add(newData)
+                .addOnCompleteListener(documentReference -> toastResult("Data added successfully"))
+                .addOnFailureListener(e -> toastResult("Error while adding the data : " + e.getMessage()));
     }
 
     public void onUpdateClicked(View view) {

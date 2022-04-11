@@ -6,6 +6,12 @@ public class Budget {
 
     public Budget() {}
 
+    public Budget(String title, String amount, String date) {
+        this.Title = title;
+        this.Amount = amount;
+        this.Date = date;
+    }
+
     public Budget(String id, String title, String amount, String date) {
         this.Id = id;
         this.Title = title;
