@@ -1,27 +1,35 @@
 package com.example.budgetapp.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.budgetapp.HomeActivity;
 import com.example.budgetapp.R;
 import com.example.budgetapp.models.Budget;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
 public class BudgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final String TAG = "<DEBUG>";
+
     private final int SHOW_MENU = 1;
     private final int HIDE_MENU = 2;
 
     public List<Budget> _listBudget;
+
+    FirebaseFirestore myDB = FirebaseFirestore.getInstance();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -106,7 +114,10 @@ public class BudgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
 
             _btnDelete.setOnClickListener(view -> {
-                // TODO : onClick firebase delete
+                myDB.collection("budgets").document(newBudget.getId())
+                        .delete()
+                        .addOnCompleteListener(documentReference -> Log.d(TAG, "Data deleted successfully"))
+                        .addOnFailureListener(e -> Log.d(TAG, "Error while deleting the data : " + e.getMessage()));
             });
         }
     }
