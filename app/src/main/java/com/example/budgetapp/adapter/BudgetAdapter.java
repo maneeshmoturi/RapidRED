@@ -54,7 +54,7 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.ViewHolder
 
         _labelDate.setText(newBudget.getDate());
         _labelTitle.setText(newBudget.getTitle());
-        _labelAmount.setText(newBudget.getAmount());
+        _labelAmount.setText(String.format("₹%s", newBudget.getAmount()));
     }
 
     @Override

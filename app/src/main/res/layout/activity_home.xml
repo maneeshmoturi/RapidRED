@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="8dp"
         android:gravity="center_horizontal"
@@ -75,14 +76,16 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvBudget"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:foregroundGravity="center_vertical"
         android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:paddingTop="8dp" />
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp" />
 
 </LinearLayout>

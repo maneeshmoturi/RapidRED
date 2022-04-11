@@ -38,22 +38,22 @@ public class LoginActivity extends AppCompatActivity {
             final String email = loginEmail.getText().toString().trim();
             final String password = loginPassword.getText().toString().trim();
             // TODO: remove comment ( done for debuting )
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, task -> {
-                        if (task.isSuccessful()) {
-                            Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
-                            startActivity(homeIntent);
-                            finish();
-                        } else {
-                            Log.w(TAG, "signUpWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+//            mAuth.signInWithEmailAndPassword(email, password)
+//                    .addOnCompleteListener(this, task -> {
+//                        if (task.isSuccessful()) {
+//                            Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+//                            startActivity(homeIntent);
+//                            finish();
+//                        } else {
+//                            Log.w(TAG, "signUpWithEmail:failure", task.getException());
+//                            Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
 
 
-//            Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
-//            startActivity(homeIntent);
-//            finish();
+            Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(homeIntent);
+            finish();
         });
 
         registerText.setOnClickListener(view -> {
