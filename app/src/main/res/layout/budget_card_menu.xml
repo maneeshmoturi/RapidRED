@@ -39,24 +39,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <EditText
                 android:id="@+id/labelTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:hint="@string/textview"
+                android:importantForAutofill="no"
+                android:inputType="textAutoComplete"
                 android:textColorHint="#757575"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/labelDate" />
 
-            <TextView
+            <EditText
                 android:id="@+id/labelAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:autofillHints="no"
+                android:inputType="number"
                 android:ems="10"
                 android:hint="@string/_12_000_00"
                 android:textAlignment="center"

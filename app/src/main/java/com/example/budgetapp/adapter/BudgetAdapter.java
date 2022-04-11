@@ -1,11 +1,13 @@
 package com.example.budgetapp.adapter;
 
 import android.content.Context;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +20,9 @@ import com.example.budgetapp.R;
 import com.example.budgetapp.models.Budget;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BudgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -48,7 +52,8 @@ public class BudgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public static class MenuViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView labelDate, labelTitle, labelAmount;
+        public TextView labelDate;
+        public EditText labelTitle, labelAmount;
         public Button btnEdit, btnDelete;
 
         public MenuViewHolder(@NonNull View itemView) {
@@ -100,8 +105,8 @@ public class BudgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             });
         } else {
             TextView _labelDate = ((MenuViewHolder) holder).labelDate;
-            TextView _labelTitle = ((MenuViewHolder) holder).labelTitle;
-            TextView _labelAmount = ((MenuViewHolder) holder).labelAmount;
+            EditText _labelTitle = ((MenuViewHolder) holder).labelTitle;
+            EditText _labelAmount = ((MenuViewHolder) holder).labelAmount;
             Button _btnEdit = ((MenuViewHolder) holder).btnEdit;
             Button _btnDelete = ((MenuViewHolder) holder).btnDelete;
 
@@ -110,7 +115,18 @@ public class BudgetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             _labelAmount.setText(String.format("₹%s", newBudget.getAmount()));
 
             _btnEdit.setOnClickListener(view -> {
-                // TODO : onClick firebase edit
+                Map<String, Object> data = new HashMap<>();
+                data.put("date", newBudget.getDate());
+                data.put("title", _labelTitle.getText().toString().trim());
+                data.put("amount", _labelAmount.getText().toString().trim());
+
+                newBudget.setTitle(_labelTitle.getText().toString().trim());
+                newBudget.setAmount(_labelAmount.getText().toString().trim());
+
+                myDB.collection("budgets").document(newBudget.getId())
+                        .update(data)
+                        .addOnCompleteListener(documentReference -> Log.d(TAG, "Data updated successfully"))
+                        .addOnFailureListener(e -> Log.d(TAG, "Error while updating the data : " + e.getMessage()));
             });
 
             _btnDelete.setOnClickListener(view -> {
