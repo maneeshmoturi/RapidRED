@@ -16,7 +16,19 @@ import java.util.List;
 
 public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.ViewHolder> {
 
+    private final int SHOW_MENU = 1;
+    private final int HIDE_MENU = 2;
+
     public List<Budget> _listBudget;
+
+    @Override
+    public int getItemViewType(int position) {
+        if (_listBudget.get(position).isShowMenu()) {
+            return SHOW_MENU;
+        } else {
+            return HIDE_MENU;
+        }
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -39,7 +51,12 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.ViewHolder
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View contactView = inflater.inflate(R.layout.budget_card, parent, false);
+        View contactView;
+        if (viewType == SHOW_MENU) {
+            contactView = inflater.inflate(R.layout.budget_card, parent, false);
+        } else {
+            contactView = inflater.inflate(R.layout.budget_card_menu, parent, false);
+        }
 
         return new ViewHolder(contactView);
     }

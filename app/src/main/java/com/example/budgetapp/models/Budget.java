@@ -3,6 +3,7 @@ package com.example.budgetapp.models;
 public class Budget {
 
     private String Id, Date, Title, Amount;
+    private boolean showMenu = false;
 
     public Budget() {}
 
@@ -36,4 +37,11 @@ public class Budget {
 
     public void setDate(String date) { Date = date; }
 
+    public boolean isShowMenu() {
+        return showMenu;
+    }
+
+    public void setShowMenu(boolean showMenu) {
+        this.showMenu = showMenu;
+    }
 }

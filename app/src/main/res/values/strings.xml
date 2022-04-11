@@ -21,4 +21,6 @@
     <string name="btn_delete">Delete</string>
     <string name="hod">HOD</string>
     <string name="_1499">1499</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>
