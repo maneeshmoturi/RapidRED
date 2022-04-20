@@ -1,11 +1,16 @@
 package com.example.budgetapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -14,6 +19,7 @@ import android.widget.Toast;
 import com.example.budgetapp.adapter.BudgetAdapter;
 import com.example.budgetapp.models.Budget;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -144,5 +150,27 @@ public class HomeActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.logout) {
+            Toast.makeText(this, "See you Soon", Toast.LENGTH_SHORT).show();
+
+            // Sign Out active Firebase User
+            FirebaseAuth.getInstance().signOut();
+
+            Intent loginIntent = new Intent(HomeActivity.this, LoginActivity.class);
+            startActivity(loginIntent);
+            finish();
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
