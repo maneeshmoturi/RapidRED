@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,7 +24,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +37,9 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseFirestore myDB;
     FirebaseApp myApp;
 
-    EditText edtDate, edtTitle, edtAmount;
+    EditText edtTitle, edtAmount;
     RecyclerView listView;
+    CalendarView calendarView;
 
     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
     BudgetAdapter adapter;
@@ -48,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         // InitViews
-        edtDate = findViewById(R.id.edtDate);
+        calendarView = findViewById(R.id.calendarView);
         edtTitle = findViewById(R.id.edtTitle);
         edtAmount = findViewById(R.id.edtAmount);
         listView = findViewById(R.id.rvBudget);
@@ -86,10 +90,22 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    String getDate() {
+        long date = calendarView.getDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(date);
+
+        int Year = calendar.get(Calendar.YEAR);
+        int Month = calendar.get(Calendar.MONTH);
+        int Day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        return Year+"/"+Month+"/"+Day;
+    }
+
     public void onAddClicked(View view) {
         hideKeyboard(this);
 
-        String _date = edtDate.getText().toString().trim();
+        String _date = getDate();
         String _title = edtTitle.getText().toString().trim();
         String _amount = edtAmount.getText().toString().trim();
 
@@ -100,22 +116,19 @@ public class HomeActivity extends AppCompatActivity {
                 .addOnCompleteListener(documentReference -> toastResult("Data added successfully"))
                 .addOnFailureListener(e -> toastResult("Error while adding the data : " + e.getMessage()));
 
-        edtDate.setText("");
         edtTitle.setText("");
         edtAmount.setText("");
     }
 
     public void onUpdateClicked(View view) {
         hideKeyboard(this);
-        if (edtDate.getText().toString().length() > 0) {
+        if (getDate().length() > 0) {
             Map<String, Object> data = new HashMap<>();
-            data.put("task_name", edtDate.getText().toString());
+            data.put("task_name", getDate());
             myDB.collection("tasks").document("1").update(data)
                     .addOnSuccessListener(aVoid -> toastResult("Data updated successfully"))
                     .addOnCompleteListener(task -> toastResult("Data update Completed"))
                     .addOnFailureListener(e -> toastResult("Error while updating the data : " + e.getMessage()));
-        } else {
-            edtDate.setError("Value Required");
         }
     }
 
@@ -134,9 +147,7 @@ public class HomeActivity extends AppCompatActivity {
         AtomicInteger count = new AtomicInteger();
         myDB.collection(collection).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                count.set(task.getResult().size());;
-            } else {
-                edtDate.setError("ERROR getSize()");
+                count.set(task.getResult().size());
             }
         });
         return count.toString();

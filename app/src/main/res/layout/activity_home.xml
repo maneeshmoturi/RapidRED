@@ -24,18 +24,23 @@
             android:layout_marginEnd="6dp"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/edtDate"
-                android:layout_width="240dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:gravity="center_horizontal"
-                android:hint="@string/march_12_2022"
-                android:importantForAutofill="no"
-                android:inputType="date"
-                android:textColorHint="#78909C"
-                android:textSize="20sp" />
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+<!--            <EditText-->
+<!--                android:id="@+id/edtDate"-->
+<!--                android:layout_width="240dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:layout_marginBottom="4dp"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                android:hint="@string/march_12_2022"-->
+<!--                android:importantForAutofill="no"-->
+<!--                android:inputType="date"-->
+<!--                android:textColorHint="#78909C"-->
+<!--                android:textSize="20sp" />-->
 
             <EditText
                 android:id="@+id/edtTitle"
